@@ -15,7 +15,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>App</mainClass>
+                            <mainClass>gui.GUI</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
