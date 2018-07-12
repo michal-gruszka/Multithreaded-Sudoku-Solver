@@ -33,6 +33,7 @@ public class GUI extends Application implements SolutionListener {
     private static final int MINIMUM_CLUES_REQUIRED = 17;
     private TextField[] cells = new TextField[81];
     private boolean isNonSolved = true;
+    private Label messageDisplay;
     private Label threadsUsedLabel;
 
     @Override
@@ -49,14 +50,15 @@ public class GUI extends Application implements SolutionListener {
 
         createInputCellsIn(gpLayout);
 
-        Label messageDisplay = new Label("Enter sudoku manually or import from CSV file");
+        messageDisplay = new Label("Enter sudoku manually or import from CSV file");
         messageDisplay.setPadding(new Insets(20,0,0,0));
-        Button solveButton = createSolveButton(messageDisplay);
+        Button solveButton = createSolveButton();
+        Button clearButton = createClearButton();
         threadsUsedLabel = new Label("Threads used: -");
         threadsUsedLabel.setPadding(new Insets(20,0,0,0));
 
         VBox v = new VBox(0);
-        v.getChildren().addAll(menuBar, gpLayout, solveButton, messageDisplay, threadsUsedLabel);
+        v.getChildren().addAll(menuBar, gpLayout, solveButton, clearButton, messageDisplay, threadsUsedLabel);
         v.setAlignment(Pos.TOP_CENTER);
         primaryStage.setScene(new Scene(v, 350, 510));
         primaryStage.show();
@@ -94,7 +96,7 @@ public class GUI extends Application implements SolutionListener {
         }
     }
 
-    private Button createSolveButton(Label messageDisplay) {
+    private Button createSolveButton() {
 
         Button button = new Button("Solve!");
 
@@ -118,6 +120,20 @@ public class GUI extends Application implements SolutionListener {
             }catch(InvalidSudokuException e){
                 messageDisplay.setText("Invalid sudoku");
             }
+        });
+
+        return button;
+    }
+
+    private Button createClearButton() {
+
+        Button button = new Button("Clear");
+
+        button.setOnAction(event -> {
+            threadsUsedLabel.setText("Threads used: -");
+            messageDisplay.setText("Enter sudoku manually or import from CSV file");
+            for (TextField cell : cells)
+                cell.setText("");
         });
 
         return button;
