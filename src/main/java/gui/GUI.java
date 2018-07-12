@@ -133,6 +133,7 @@ public class GUI extends Application implements SolutionListener {
         button.setOnAction(event -> {
             threadsUsedLabel.setText("Threads used: -");
             messageDisplay.setText("Enter sudoku manually or import from CSV file");
+            isNonSolved = true;
             for (TextField cell : cells)
                 cell.setText("");
         });
