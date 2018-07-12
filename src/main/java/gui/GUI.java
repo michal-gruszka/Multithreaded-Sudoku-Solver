@@ -30,6 +30,7 @@ import java.io.File;
 
 public class GUI extends Application implements SolutionListener {
 
+    private static final int MINIMUM_CLUES_REQUIRED = 17;
     private TextField[] cells = new TextField[81];
     private boolean isNonSolved = true;
     private Label threadsUsedLabel;
@@ -120,6 +121,8 @@ public class GUI extends Application implements SolutionListener {
 
     private int[] getSudokuIntArrayFrom(TextField[] cells) {
         int[] values = new int[cells.length];
+        int clues = 0;
+
         for (int i = 0; i < values.length; i++) {
             int val;
             String str = cells[i].getCharacters().toString();
@@ -127,12 +130,16 @@ public class GUI extends Application implements SolutionListener {
                 val = 0;
             } else if (str.matches("^[1-9]$")) {
                 val = Integer.valueOf(str);
+                clues++;
             } else {
                 throw new InvalidSudokuException();
             }
 
             values[i] = val;
         }
+
+        if (clues < MINIMUM_CLUES_REQUIRED) throw new InvalidSudokuException();
+
         return values;
     }
 
