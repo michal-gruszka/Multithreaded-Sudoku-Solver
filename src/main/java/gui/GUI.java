@@ -45,12 +45,31 @@ public class GUI extends Application implements SolutionListener {
         gpLayout.setHgap(8);
         gpLayout.setVgap(8);
 
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Sudoku CSV file");
+        MenuBar menuBar = createMenuBar(primaryStage);
+
+        createInputCellsIn(gpLayout);
+
+        Label messageDisplay = new Label("Enter sudoku manually or import from CSV file");
+        messageDisplay.setPadding(new Insets(20,0,0,0));
+        Button solveButton = createSolveButton(messageDisplay);
+        threadsUsedLabel = new Label("Threads used: -");
+        threadsUsedLabel.setPadding(new Insets(20,0,0,0));
+
+        VBox v = new VBox(0);
+        v.getChildren().addAll(menuBar, gpLayout, solveButton, messageDisplay, threadsUsedLabel);
+        v.setAlignment(Pos.TOP_CENTER);
+        primaryStage.setScene(new Scene(v, 350, 510));
+        primaryStage.show();
+    }
+
+    private MenuBar createMenuBar(Stage primaryStage) {
 
         MenuBar menuBar = new MenuBar();
         Menu menuFile = new Menu("File");
         MenuItem add = new MenuItem("Import from CSV");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Sudoku CSV file");
+
         add.setOnAction(t -> {
             File file = fileChooser.showOpenDialog(primaryStage);
             if (file != null) {
@@ -59,23 +78,27 @@ public class GUI extends Application implements SolutionListener {
                 fillWithValues(cells, values);
             }
         });
+
         menuFile.getItems().add(add);
         menuBar.getMenus().add(menuFile);
 
+        return menuBar;
+    }
+
+    private void createInputCellsIn(GridPane gpLayout) {
         for (int i = 0; i < cells.length; i++) {
             TextField tf = new TextField();
             cells[i] = tf;
             gpLayout.getChildren().add(tf);
             GridPane.setConstraints(tf, i % 9, i / 9);
         }
+    }
 
-        Button solveButton = new Button("Solve!");
-        Label message = new Label("Enter sudoku manually or import from CSV file");
-        message.setPadding(new Insets(20,0,0,0));
-        threadsUsedLabel = new Label("Threads used: -");
-        threadsUsedLabel.setPadding(new Insets(20,0,0,0));
+    private Button createSolveButton(Label messageDisplay) {
 
-        solveButton.setOnAction(event -> {
+        Button button = new Button("Solve!");
+
+        button.setOnAction(event -> {
             try {
                 if (this.isNonSolved) {
                     int[] sudokuArray = getSudokuIntArrayFrom(cells);
@@ -90,19 +113,14 @@ public class GUI extends Application implements SolutionListener {
                         thread.start();
                     }
                 } else {
-                    message.setText("Sudoku is already solved");
+                    messageDisplay.setText("Sudoku is already solved");
                 }
             }catch(InvalidSudokuException e){
-                message.setText("Invalid sudoku");
+                messageDisplay.setText("Invalid sudoku");
             }
         });
 
-
-        VBox v = new VBox(0);
-        v.getChildren().addAll(menuBar, gpLayout, solveButton, message, threadsUsedLabel);
-        v.setAlignment(Pos.TOP_CENTER);
-        primaryStage.setScene(new Scene(v, 350, 510));
-        primaryStage.show();
+        return button;
     }
 
     private void fillWithValues(TextField[] cells, int[] values) {
