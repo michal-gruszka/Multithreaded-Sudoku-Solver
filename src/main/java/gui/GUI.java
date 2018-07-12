@@ -30,6 +30,8 @@ import java.io.File;
 
 public class GUI extends Application implements SolutionListener {
 
+    private static final int WINDOW_WIDTH = 350;
+    private static final int WINDOW_HEIGHT = 550;
     private static final int MINIMUM_CLUES_REQUIRED = 17;
     private TextField[] cells = new TextField[81];
     private boolean isNonSolved = true;
@@ -60,7 +62,7 @@ public class GUI extends Application implements SolutionListener {
         VBox v = new VBox(0);
         v.getChildren().addAll(menuBar, gpLayout, solveButton, clearButton, messageDisplay, threadsUsedLabel);
         v.setAlignment(Pos.TOP_CENTER);
-        primaryStage.setScene(new Scene(v, 350, 510));
+        primaryStage.setScene(new Scene(v, WINDOW_WIDTH, WINDOW_HEIGHT));
         primaryStage.show();
     }
 
