@@ -89,10 +89,11 @@ public class GUI extends Application implements SolutionListener {
 
     private void createInputCellsIn(GridPane gpLayout) {
         for (int i = 0; i < cells.length; i++) {
-            TextField tf = new TextField();
-            cells[i] = tf;
-            gpLayout.getChildren().add(tf);
-            GridPane.setConstraints(tf, i % 9, i / 9);
+            TextField field = new TextField();
+            cells[i] = field;
+            field.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
+            gpLayout.getChildren().add(field);
+            GridPane.setConstraints(field, i % 9, i / 9);
         }
     }
 
@@ -146,10 +147,6 @@ public class GUI extends Application implements SolutionListener {
             } else {
                 cells[i].setText(String.valueOf(values[i]));
             }
-        }
-
-        for (TextField field : cells) {
-            field.setFont(Font.font("Verdana", FontWeight.BOLD, 15));
         }
     }
 
