@@ -45,7 +45,7 @@ public class GUI extends Application implements SolutionListener {
 
         GridPane gpLayout = new GridPane();
         gpLayout.setPadding(new Insets(20, 20, 20, 20));
-        gpLayout.setHgap(8);
+        gpLayout.setHgap(6);
         gpLayout.setVgap(8);
 
         MenuBar menuBar = createMenuBar(primaryStage);
@@ -53,13 +53,11 @@ public class GUI extends Application implements SolutionListener {
         createInputCellsIn(gpLayout);
 
         messageDisplay = new Label("Enter sudoku manually or import from CSV file");
-        messageDisplay.setPadding(new Insets(20,0,0,0));
         Button solveButton = createSolveButton();
         Button clearButton = createClearButton();
         threadsUsedLabel = new Label("Threads used: -");
-        threadsUsedLabel.setPadding(new Insets(20,0,0,0));
 
-        VBox v = new VBox(0);
+        VBox v = new VBox(10);
         v.getChildren().addAll(menuBar, gpLayout, solveButton, clearButton, messageDisplay, threadsUsedLabel);
         v.setAlignment(Pos.TOP_CENTER);
         primaryStage.setScene(new Scene(v, WINDOW_WIDTH, WINDOW_HEIGHT));
