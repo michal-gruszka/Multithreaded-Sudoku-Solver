@@ -80,23 +80,19 @@ public class GUI extends Application implements SolutionListener {
                     int[] sudokuArray = getSudokuIntArrayFrom(cells);
                     if (sudokuArray != null) {
                         Grid grid;
-                        try {
-                            grid = new Grid(sudokuArray);
-                            Solver solver = new Solver(grid);
-                            SolverThread solverThread = new SolverThread(solver);
-                            solverThread.registerListener(this);
-                            solverThread.setThreadsUsed(0);
-                            Thread thread = new Thread(solverThread);
-                            thread.start();
-                        } catch (InvalidSudokuException e) {
-                            message.setText("Invalid sudoku");
-                        }
+                        grid = new Grid(sudokuArray);
+                        Solver solver = new Solver(grid);
+                        SolverThread solverThread = new SolverThread(solver);
+                        solverThread.registerListener(this);
+                        solverThread.setThreadsUsed(0);
+                        Thread thread = new Thread(solverThread);
+                        thread.start();
                     }
                 } else {
                     message.setText("Sudoku is already solved");
                 }
-            }catch(IllegalArgumentException e){
-                message.setText(e.getMessage());
+            }catch(InvalidSudokuException e){
+                message.setText("Invalid sudoku");
             }
         });
 
@@ -132,7 +128,7 @@ public class GUI extends Application implements SolutionListener {
             } else if (str.matches("^[1-9]$")) {
                 val = Integer.valueOf(str);
             } else {
-                throw new IllegalStateException("Cell must be empty or contain number from 1 to 9");
+                throw new InvalidSudokuException();
             }
 
             values[i] = val;
