@@ -39,8 +39,9 @@ public class SolverThread implements Runnable {
 
         if (isSolved) {
             notifySolution(solver.getGrid().translateCells());
-            System.out.println(solver.getGrid().toString());
-            System.out.println("Threads used: " + threadsUsed);
+            // TODO restore or remove commented code
+//            System.out.println(solver.getGrid().toString());
+//            System.out.println("Threads used: " + threadsUsed);
         } else {
             try {
                 splitSolving();
